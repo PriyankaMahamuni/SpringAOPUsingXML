@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">
+		
+	<beans>
+		<!-- for target -->
+		<bean id="bankBean" class="org.bridgelabz.BusinessCode.Bank"/>
+		<!--  for Service -->
+		<bean id="beforeServiceBean" class="org.bridgelabz.service.LogBeforeService"/>
+		
+		<bean id="beforeProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+			<property name="target" ref="bankBean"/>
+			<property name="interceptorNames">
+				<list>
+					<value>beforeServiceBean</value>
+					
+				</list>
+			</property>
+		</bean>
+		
+		<bean id="afterServiceBean" class="org.bridgelabz.service.LogAfterService"/>
+		<bean id="afterProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+			<property name="target" ref="bankBean"/>
+			<property name="interceptorNames">
+				<list>
+					<value>afterServiceBean</value>
+				</list>
+			</property>
+		</bean>
+		<!-- for target -->
+		<bean id="LoginBean" class="org.bridgelabz.BusinessCode.LogIn"/>
+		<!-- for service -->
+		<bean id="aroundServiceBean" class="org.bridgelabz.service.LogAroundService"/>
+		<!-- for proxyFactoryBean -->
+		<bean id="aroundProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+			<property name="target" ref="LoginBean"/>
+			<property name="interceptorNames">
+				<list>
+					<value>aroundServiceBean</value>
+				</list>
+			</property>
+		</bean>
+		<!-- for service -->
+		<bean id="throwAdviceBean" class="org.bridgelabz.service.LogInExceptionService"/>
+		<bean id="throwProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+			<property name="target" ref="LoginBean"/>
+			<property name="interceptorNames">
+				<list>
+					<value>throwAdviceBean</value>
+				</list>
+			</property>
+		</bean>
+	</beans>
